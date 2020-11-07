@@ -4,7 +4,7 @@ scanimage -L
 ///////////////////////
 device `pixma:04A926EF_SJ3029112970S' is a CANON Canon imageCLASS D420 multi-function peripheral
 ///////////////////////
-//scans
+//scans - this command verified works in ARM
 scanimage -d pixma:04A926EF_SJ3029112970S > /home/joesphan/Desktop/testfile.pnm
 
 
