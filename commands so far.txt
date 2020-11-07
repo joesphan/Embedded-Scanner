@@ -1,0 +1,31 @@
+installation command list
+sudo apt-get install sane sane-utils libsane-extras units
+sudo apt-get install git
+git clone https://github.com/joesphan/sane-scan-pdf
+cd sane-scan-pdf
+//plug in printer
+scanadf -L
+///////////////////////
+device `pixma:04A926EF_SJ3029112970S' is a CANON Canon imageCLASS D420 multi-function peripheral
+///////////////////////
+scanadf -d pixma:04A926EF_SJ3029112970S -o testfile
+
+
+/////////////////////////////
+//create shares for acces through NAS
+sudo apt-get install samba samba-common-bin
+sudo nano /etc/samba/smb.conf
+
+
+[share]
+Comment = scanDir
+path = /
+Browseable = yes
+Writeable = no
+only guest = no
+create mask = 0777
+directory mask = 0777
+public = yes
+guest ok = yes
+
+
