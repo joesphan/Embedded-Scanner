@@ -26,12 +26,9 @@ body = "Body_of_the_mail"
 
 # attach the body with the msg instance 
 msg.attach(MIMEText(body, 'plain')) 
-input()
 # open the file to be sent  
 filename = "testfile.txt"
-input()
-attachment = open("C:/Users/joesp/Desktop/", "rb") 
-input()
+attachment = open("./testfile.txt", "rb") 
 # instance of MIMEBase and named as p 
 p = MIMEBase('application', 'octet-stream') 
   

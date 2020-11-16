@@ -1,4 +1,12 @@
 sudo apt-get install sane sane-utils libsane-extras units
+//lcd
+sudo apt-get install python-smbus i2c-tools
+
+//GPIO X0=1013
+sudo sh -c 'echo 1013 > /sys/class/gpio/export'
+cat /sys/class/gpio/gpio1020/direction
+cat /sys/class/gpio/gpio1013/value
+
 //plug in printer
 scanimage -L
 ///////////////////////

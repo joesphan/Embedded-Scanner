@@ -1,0 +1,4 @@
+LCDSend:
+     python LCDSend.py "hello" "world"
+ Dependencies:
+     Profiles.conf
