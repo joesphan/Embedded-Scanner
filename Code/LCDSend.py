@@ -6,7 +6,7 @@ from time import *
 
 #config file, reads i2c settings off [lcd] in Profiles.conf
 config = ConfigParser.ConfigParser()
-config.read('Profiles.conf')
+config.read('Settings/Profiles.conf')
 i2caddress = config.get('lcd', 'i2caddr')
 i2cbus = config.get('lcd', 'i2cbus')
 arglist = sys.argv
