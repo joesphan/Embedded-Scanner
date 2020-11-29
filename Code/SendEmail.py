@@ -29,25 +29,25 @@ subfolder = config.get(currentprofile, 'subfolder')
 #determine the path for the file
 #final output path
 outfile = ''
+fullpath = []
 if filetype == 'image':
-    path = 'ScanCache/' + subfolder
+    path = './ScanCache/' + subfolder
     #zip archive if they are images
     #get filenames
-    files = [f for f in os.listdir('ScanCache/') if os.path.isfile(f)]
-    filename = files[0]
+    files = os.listdir(path)
     for f in files:
-            fullpath.append('ScanCache/' + f)
+            fullpath.append('./ScanCache/' + subfolder + '/' + f)
     #zipping
-    outfile = 'ZipCache/' + filename + '.zip'
+    outfile = './ZipCache/' + subfolder + '.zip'
     zip = zipfile.ZipFile(outfile, mode='w')
     for x in fullpath:
         zip.write(x)
     zip.close()
 elif filetype == 'pdf':
     #get filenames
-    files = os.listdir('PdfCache/' + subfolder)
+    files = os.listdir('./PdfCache/' + subfolder)
     filename = files[0]
-    outfile = 'PdfCache/' + subfolder + '/' + filename
+    outfile = './PdfCache/' + subfolder + '/' + filename
     
 # Email stuff
 msg = MIMEMultipart() 
@@ -59,7 +59,7 @@ attachment = open(outfile, 'rb')
 p = MIMEBase('application', 'octet-stream') 
 p.set_payload((attachment).read()) 
 encoders.encode_base64(p) 
-p.add_header('Content-Disposition', 'attachment; filename= %s' % filename) 
+p.add_header('Content-Disposition', 'attachment; filename= %s' % subfolder) 
 msg.attach(p) 
 s = smtplib.SMTP(smtp, port) 
 s.starttls() 
