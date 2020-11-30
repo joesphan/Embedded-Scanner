@@ -1,11 +1,4 @@
-################################################################
-# Joesphan Lu
-# 10/7/2020
-# this script scans the image based on the settings in scan.conf
-# arguments:
-#    -a: append the following scan to the previous pdf
-#    -f: finish, runs final scripts (convert to pdf, email etc.)
-################################################################
+#Joesphan Lu, copyright @ 2020 Ok for non-commercial use. Redistribution prohibited
 import ConfigParser
 import sys
 import os

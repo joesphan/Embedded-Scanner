@@ -1,3 +1,4 @@
+#Joesphan Lu, copyright @ 2020 Ok for non-commercial use. Redistribution prohibited
 from PIL import Image
 import ConfigParser
 import os

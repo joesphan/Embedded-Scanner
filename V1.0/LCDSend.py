@@ -1,3 +1,4 @@
+#Joesphan Lu, copyright @ 2020 Ok for non-commercial use. Redistribution prohibited
 import RPI_I2C_LCD_driver
 import sys
 import ConfigParser

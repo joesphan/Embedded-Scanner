@@ -1,9 +1,0 @@
-LCDSend:
-     python LCDSend.py "hello" "world"
- Dependencies:
-     Profiles.conf
-ConvertPdf:
-    python ConvertPdf
- Dependencies:
-    Profiles.conf
-    pillow library
