@@ -6,55 +6,74 @@
 #    -a: append the following scan to the previous pdf
 #    -f: finish, runs final scripts (convert to pdf, email etc.)
 ################################################################
-import subprocess
-import configparser
+import ConfigParser
 import sys
+import os
 from datetime import datetime
+from time import sleep
 now = datetime.now()
-config = configparser.ConfigParser()
-config.read('PrintSettings.conf')
+config = ConfigParser.ConfigParser()
+config.read('./Settings/Profiles.conf')
 
 #querys the profile
-currentprofile = config['global']['currentprofile']
+currentprofile = config.get('global', 'currentprofile')
+device = config.get('global', 'device')
+resolution = config.get(currentprofile, 'resolution')
+mode = config.get(currentprofile, 'mode')
+outputtype = config.get(currentprofile, 'outputtype')
+outputlocation = config.get(currentprofile, 'outputlocation')
+pageindex = int(config.get(currentprofile, 'pageindex'))
+subfolder = config.get(currentprofile, 'subfolder')
+headreturntime = int(config.get('global', 'headreturntime'))
 
-#querys the scan options
-
-filename = ""
-if sys.argv[1] == "-a":
-    if config[currentprofile]['filename'] == "": 
+fullpath = ""
+args = ""
+try:
+    args = sys.argv[1]
+except:
+    print('Please enter an argument, -a to append, -f to finish')
+if args == "-a":
+    if subfolder == "": 
         #if a -a(ppend) has been initiated, no previous -a multi page
-        filename = now.strftime("%Y%m%d%H%M%S") + "-1"
-        config[currentprofile]['filename'] = filename
+        subfolder = str(now.strftime("%Y")) + "-" + str(now.strftime("%m")) + "-" + str(now.strftime("%d")) + "-" + str(now.strftime("%H")) + "_" + str(now.strftime("%M")) + "_" + str(now.strftime("%S"))
+        #update folder
+        config.set(currentprofile, 'subfolder', subfolder)
     else:
         #-a intiiated, previous page exists
-        filename = config[currentprofile]['filename']
-        num = int(filename[-1])                      #get last char
-        filename[-1] = str(num + 1)                  #increment and set
-elif sys.argv[1] == "-f":
-#finish
-    if config[currentprofile]['outputtype'] == 'pdf':
-        #convert to pdf
-    if config[currentprofile]['outputlocation'] == 'email'
-        #email address
-    #reset
-    config[currentprofile]['filename'] = ""
+        pageindex += 1 #increment
+        #update the pageindex in profiles.conf
+        config.set(currentprofile, 'pageindex', pageindex)
+    #create the dir 
+    try:
+        os.mkdir('./ScanCache/' + subfolder + '/')
+    except:
+        print
+    fullpath = "./ScanCache/" + subfolder + "/" + subfolder + "-" + str(pageindex)
     
+    #runs the actual command, checks return
+    print('scanning')
+    os.system("scanimage" + " -d " + device + " --resolution " + resolution + " --mode " + mode + " > " + fullpath)
+    
+    #wait for head to return to home
+    sleep(headreturntime + 1)
+    print('scanned page ' + str(pageindex))
+    config.write(open('./Settings/Profiles.conf', 'w'))
+    
+elif args == "-f":
+    #finish
+    if outputtype == 'pdf':
+        print("Converting to PDF...")
+        #convert to pdf
+        import ConvertPdf
+    if outputlocation == 'email':
+        print("Emailing...")
+        #email address
+        import SendEmail
+    #reset
+    config.set(currentprofile, 'subfolder', '')
+    config.set(currentprofile, 'pageindex', 0)
+    #update the config file
+    config.write(open('./Settings/Profiles.conf', 'w'))
 else:
-    #single page scanning
-    filename = now.strftime("%Y%m%d%H%M%S")
-    config[currentprofile]['filename'] = ""     #reset to avoid conflicts
+    print("Please enter an argument, -a to append, -f to finish")
 
-device = config[currentprofile]['device']
-resolution = config[currentprofile]['resolution']
-mode = config[currentprofile]['mode']
-outputtype = config[currentprofile]['outputtype']
-outputlocation = config[currentprofile]['outputlocation']
-path = config[currentprofile]['path']
-fullpath = str(path) + str(filename)
-
-#runs the actual command
-subprocess.run(["scanimage", "-d", device, "--resolution", resolution, "--mode", mode, ">", "fullpath"])
-
-#update the config file
-with open('PrintSettings.conf', 'w') as configfile:
-   config.write(configfile)

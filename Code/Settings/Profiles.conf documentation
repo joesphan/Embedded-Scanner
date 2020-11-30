@@ -1,0 +1,36 @@
+#comment only on a new line
+#rename Profiles.conf
+[filenames]
+
+[global]
+currentprofile = profile1
+
+[email]
+smtp = smtp.gmail.com
+port = 587
+fromaddr = embeddedscanner@gmail.com
+frompass = Pass123$
+
+[lcd]
+i2cbus = 1
+i2caddr = 0x3f
+
+[profile1]
+device = asdf1
+#scanimage -L
+resolution = 300
+#scanimage --help -d devicename
+mode = Gray
+#Gray, lineart, color, 
+outputtype = image
+#image, pdf
+subfolder = asdf
+#subfolder inside ScanCache/pdfCache
+outputlocation = local
+#local, email
+filename = 
+#query later
+recepient = joesphanlu@gmail.com
+body = 
+subject = Your Scan Is Here
+
