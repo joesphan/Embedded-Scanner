@@ -37,9 +37,13 @@ read `/Docs/profiles documentation.txt`
 
 settings can be set via the web UI
 
+## GPIO Setup
+
+This script is designed to work on both the raspberry pi and the now defunct ntc CHIP platform. Hook up 6 buttons to your device and name them according to [CHIP-IO](https://pypi.org/project/CHIP-IO/) naming conventions or [RPI.GPIO](https://pypi.org/project/RPi.GPIO/) naming conventions.
+
 ## How it works
 
-gpio will monitor buttons and call scan.py
+CHIP_GPIO or RPI_GPIO will monitor buttons and call scan.py
 
 `Scan.py ` runs everything. The arguments are as follow:
 
