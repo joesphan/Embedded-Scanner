@@ -4,22 +4,14 @@ import threading
 import time
 import os
 import ConfigParser
-
+import scan
 
 
 #def scanGPIO():
 config = ConfigParser.ConfigParser()
 config.read('Settings/Profiles.conf')
 
-#setup all gpio
-GPIO.setup("XIO-P0", GPIO.IN)
-GPIO.setup("XIO-P1", GPIO.IN)
-GPIO.setup("XIO-P2", GPIO.IN)
-GPIO.setup("XIO-P3", GPIO.IN)
-GPIO.setup("XIO-P4", GPIO.IN)
-GPIO.setup("XIO-P5", GPIO.IN)
-GPIO.setup("XIO-P6", GPIO.IN)
-GPIO.setup("XIO-P7", GPIO.IN)
+
 
 profile1btn = config.get('global', 'profile1pin')
 profile1btnpressed = False
@@ -39,12 +31,23 @@ scanpagebtnpressed = False
 finishscanbtn = config.get('global', 'finishscanpin')
 finishscanbtnpressed = False
 
+firstrun = True
+
+#setup all gpio
+GPIO.setup(profile1btn, GPIO.IN)
+GPIO.setup(profile2btn, GPIO.IN)
+GPIO.setup(profile3btn, GPIO.IN)
+GPIO.setup(profile4btn, GPIO.IN)
+GPIO.setup(scanpagebtn, GPIO.IN)
+GPIO.setup(finishscanbtn, GPIO.IN)
+
+
 try:
     while True:
         #profile 1 selection
-        if GPIO.input(profile1btn):
+        if not(GPIO.input(profile1btn)):
             #debounce
-            if profile1btnpressed == False:
+            if not(profile1btnpressed):
                 profile1btnpressed = True
                 config.set('global', 'currentprofile', 'profile1')
                 #update the config file
@@ -54,9 +57,9 @@ try:
             profile1btnpressed = False
             
         #profile 2 selection
-        if GPIO.input(profile2btn):
+        if not(GPIO.input(profile2btn)):
             #debounce
-            if profile2btnpressed == False:
+            if not(profile2btnpressed):
                 profile2btnpressed = True
                 config.set('global', 'currentprofile', 'profile2')
                 #update the config file
@@ -66,9 +69,9 @@ try:
             profile2btnpressed = False
             
         #profile 3 selection
-        if GPIO.input(profile3btn):
+        if not(GPIO.input(profile3btn)):
             #debounce
-            if profile3btnpressed == False:
+            if not(profile3btnpressed):
                 profile3btnpressed = True
                 config.set('global', 'currentprofile', 'profile3')
                 #update the config file
@@ -78,9 +81,9 @@ try:
             profile3btnpressed = False
             
         #profile 4 selection
-        if GPIO.input(profile4btn):
+        if not(GPIO.input(profile4btn)):
             #debounce
-            if profile4btnpressed == False:
+            if not(profile4btnpressed):
                 profile4btnpressed = True
                 config.set('global', 'currentprofile', 'profile4')
                 #update the config file
@@ -90,27 +93,29 @@ try:
             profile4btnpressed = False
             
         #scan page
-        if GPIO.input(scanpagebtn):
+        if not(GPIO.input(scanpagebtn)):
             #debounce
-            if scanpagebtnpressed == False:
+            if not(scanpagebtnpressed):
                 scanpagebtnpressed = True
                 #run scan
-                os.system("scan.py -a")
+                scan.scan("-a")
                 print("scan page pressed \n")
         else:
             scanpagebtnpressed = False
                         
         #scan page
-        if GPIO.input(finishscanbtn):
+        if not(GPIO.input(finishscanbtn)):
             #debounce
-            if finishscanbtnpressed == False:
+            if not(finishscanbtnpressed):
                 finishscanbtnpressed = True
-                print("finish scan pressed \n")
                 #finish scan
-                os.system("scan.py -f")
+                scan.scan("-f")
+                print("finish scan pressed \n")
         else:
             finishscanbtnpressed = False
-            
+        if firstrun:
+            time.sleep(1)
+        firstrun = False
         time.sleep(0.1)
 except KeyboardInterrupt:
     pass

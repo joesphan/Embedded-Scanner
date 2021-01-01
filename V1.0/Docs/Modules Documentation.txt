@@ -15,8 +15,9 @@ ConvertPdf:
      Dependencies:
           Profiles.conf
           -grabs the subfolder where all the images are located
-          pillow library
-          time library
+          -pillow library (2.2.2)
+          -zlib1g
+          -time library
      Outputs:
           -the concatenated pdf file from images inside subfolder
           -outputs to ./PdfCache/subfolder_name
