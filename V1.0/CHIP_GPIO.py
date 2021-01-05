@@ -5,7 +5,10 @@ import time
 import os
 import ConfigParser
 import scan
-
+try:
+    import LCDSend
+except:
+    pass
 
 #def scanGPIO():
 config = ConfigParser.ConfigParser()
@@ -31,7 +34,6 @@ scanpagebtnpressed = False
 finishscanbtn = config.get('global', 'finishscanpin')
 finishscanbtnpressed = False
 
-firstrun = True
 
 #setup all gpio
 GPIO.setup(profile1btn, GPIO.IN)
@@ -41,6 +43,10 @@ GPIO.setup(profile4btn, GPIO.IN)
 GPIO.setup(scanpagebtn, GPIO.IN)
 GPIO.setup(finishscanbtn, GPIO.IN)
 
+try:
+    LCDSend.LCDSend("     Ready     ", -1, "Select  Profile", -1, "", "")
+except:
+    pass
 
 try:
     while True:
@@ -52,6 +58,10 @@ try:
                 config.set('global', 'currentprofile', 'profile1')
                 #update the config file
                 config.write(open('./Settings/Profiles.conf', 'w'))
+                try:
+                    LCDSend.LCDSend("", -1, "   Profile 1   ", -1, "", "")
+                except:
+                    pass
                 print("profile 1 pressed \n")
         else:
             profile1btnpressed = False
@@ -64,6 +74,10 @@ try:
                 config.set('global', 'currentprofile', 'profile2')
                 #update the config file
                 config.write(open('./Settings/Profiles.conf', 'w'))
+                try:
+                    LCDSend.LCDSend("", -1, "   Profile 2   ", -1, "", "")
+                except:
+                    pass
                 print("profile 2 pressed \n")
         else:
             profile2btnpressed = False
@@ -76,6 +90,10 @@ try:
                 config.set('global', 'currentprofile', 'profile3')
                 #update the config file
                 config.write(open('./Settings/Profiles.conf', 'w'))
+                try:
+                    LCDSend.LCDSend("", -1, "   Profile 3   ", -1, "", "")
+                except:
+                    pass
                 print("profile 3 pressed \n")
         else:
             profile3btnpressed = False
@@ -88,6 +106,10 @@ try:
                 config.set('global', 'currentprofile', 'profile4')
                 #update the config file
                 config.write(open('./Settings/Profiles.conf', 'w'))
+                try:
+                    LCDSend.LCDSend("", -1, "   Profile 4   ", -1, "", "")
+                except:
+                    pass
                 print("profile 4 pressed \n")
         else:
             profile4btnpressed = False
@@ -97,6 +119,10 @@ try:
             #debounce
             if not(scanpagebtnpressed):
                 scanpagebtnpressed = True
+                try:
+                    LCDSend.LCDSend("  Scanning...  ", -1, "", -1, "", "")
+                except:
+                    pass
                 #run scan
                 scan.scan("-a")
                 print("scan page pressed \n")
@@ -110,12 +136,14 @@ try:
                 finishscanbtnpressed = True
                 #finish scan
                 scan.scan("-f")
+                
+                try:
+                    LCDSend.LCDSend("     Ready     ", -1, "", -1, "", "")
+                except:
+                    pass
                 print("finish scan pressed \n")
         else:
             finishscanbtnpressed = False
-        if firstrun:
-            time.sleep(1)
-        firstrun = False
         time.sleep(0.1)
 except KeyboardInterrupt:
     pass

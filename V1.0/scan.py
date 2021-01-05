@@ -8,6 +8,11 @@ from time import sleep
 import ConvertPdf
 import SendEmail
 
+try:
+    import LCDSend
+except:
+    pass
+
 def scan(args):
     now = datetime.now()
     config = ConfigParser.ConfigParser()
@@ -57,10 +62,19 @@ def scan(args):
         #finish
         if outputtype == 'pdf':
             print("Converting to PDF...")
+            #LCD
+            try:
+                LCDSend.LCDSend(" Converting... ", -1, "", -1, "", "")
+            except:
+                pass
             #convert to pdf
             ConvertPdf.ConvertPdf()
         if outputlocation == 'email':
             print("Emailing...")
+            try:
+                LCDSend.LCDSend("  Emailing...  ", -1, "", -1, "", "")
+            except:
+                pass
             #email address
             SendEmail.SendEmail()
         #reset
