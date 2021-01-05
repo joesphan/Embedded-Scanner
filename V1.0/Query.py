@@ -14,6 +14,17 @@ def Devices():
 def Capabilities(deviceID):
     #get output
     output = subprocess.check_output("scanimage --help -d " + deviceID)
+    #parse output
+    devices = re.findall("`.*'", output)
+    resolution =
+    mode = 
+    #set output
+    dict = {
+        'resolution': resolution,
+        'mode': mode,
+    }
+    return dict
+def I2c():
     
     return
 def UsbID(VendorID):
