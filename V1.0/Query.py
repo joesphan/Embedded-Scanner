@@ -15,9 +15,10 @@ def Capabilities(deviceID):
     #get output
     output = subprocess.check_output("scanimage --help -d " + deviceID)
     #parse output
-    devices = re.findall("`.*'", output)
-    resolution =
-    mode = 
+    resolutionstr = re.findall("--resolution (.*)dpi [", output)
+    modestrt = re.findall("--mode (.*) [", output)
+    resolution = []
+    mode = []
     #set output
     dict = {
         'resolution': resolution,
