@@ -1,0 +1,46 @@
+sudo apt-get install sane sane-utils libsane-extras units
+//lcd
+sudo apt-get install python-smbus i2c-tools
+
+//GPIO X0=1013
+sudo sh -c 'echo 1013 > /sys/class/gpio/export'
+cat /sys/class/gpio/gpio1020/direction
+cat /sys/class/gpio/gpio1013/value
+
+//plug in printer
+scanimage -L
+///////////////////////
+device `pixma:04A926EF_SJ3029112970S' is a CANON Canon imageCLASS D420 multi-function peripheral
+///////////////////////
+//scans - this command verified works in ARM
+scanimage -d pixma:04A926EF_SJ3029112970S --resolution 600 --mode Gray > /home/joesphan/Desktop/testfile.pnm
+
+
+/////////////////////////////
+//create shares for acces through NAS
+sudo apt-get install samba samba-common-bin
+sudo nano /etc/samba/smb.conf
+
+
+[share]
+Comment = scanDir
+path = /
+Browseable = yes
+Writeable = no
+only guest = no
+create mask = 0777
+directory mask = 0777
+public = yes
+guest ok = yes
+
+//////////////////////////////////////////////////////////////
+//python commands
+
+email
+//create email account
+//turn on less secure app access:
+https://support.google.com/accounts/answer/6010255
+
+server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+server.ehlo()
+server.sendmail("embeddedscanneruser", 'joesphanlu@gmail.com', "asdfasdfasdfasdf")

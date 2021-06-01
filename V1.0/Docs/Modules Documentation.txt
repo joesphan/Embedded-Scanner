@@ -1,0 +1,45 @@
+Joesphan Lu, copyright @ 2020 Ok for non-commercial use. Redistribution prohibited
+LCDSend:
+     Arguments:
+          python LCDSend.py "hello" "world"
+          -first argument is row 1
+          -second argument is row 2
+          -compatible with i2c LCDs on the raspberrypi platform
+     Dependencies:
+          Profiles.conf
+          -grabs the i2c address and bus
+     Outputs:
+          -hardware LCD
+ConvertPdf:
+     (no arguments)
+     Dependencies:
+          Profiles.conf
+          -grabs the subfolder where all the images are located
+          -pillow library (2.2.2)
+          -zlib1g
+          -time library
+     Outputs:
+          -the concatenated pdf file from images inside subfolder
+          -outputs to ./PdfCache/subfolder_name
+scan:
+     Arguments
+          python scan.py -a
+          -scans next page
+          python scan.py -f
+          -finishes the scan
+          -pdf/email
+     Dependencies:
+          Profiles.conf
+          -lots
+          lots of libraries
+     Outputs:
+          nothing
+SendEmail:
+     (no args)
+     Dependencies:
+          Profiles.conf
+          smtplib
+          zip library
+     Outputs:
+          the zip
+          email
